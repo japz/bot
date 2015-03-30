@@ -8,6 +8,15 @@ function set_nsfw() {
     }
 }
 
+function set_sfw() {
+    var value = $('#sfw_enabled').bootstrapSwitch('status');
+    console.log('Setting SFW to', value);
+    if (! value) {
+        $('.sfw').hide('slow');
+    } else {
+        $('.sfw').show('slow');
+    }
+}
 $('.nsfw_warning').click(function () {
     $(this).parent().find('.image_container').toggle('slow');
 });
@@ -18,13 +27,22 @@ $('#nsfw_enabled').on('switch-change', function (e, data) {
     set_nsfw();
 });
 
+$('#sfw_enabled').on('switch-change', function (e, data) {
+    var value = data.value;
+    console.log('SFW', value);
+    set_sfw();
+});
+
+
 $.endlessPaginate({
     paginateOnScroll: true,
-    paginateOnScrollMargin: 10,
+    paginateOnScrollMargin: 20,
     onCompleted: function(data) {
         console.log('New entries loaded, setting nsfw status');
         $('.nsfw').show();
+        $('.sfw').show();
         set_nsfw();
+        set_sfw();
 }});
 
 $(function() {
